@@ -1,0 +1,8 @@
+<nav search_view="search" color="#157db9">
+  <view name="search" />
+  <view name="overview" default="true" />
+  <collection label="Others">
+	<view source="unclassified" />
+  </collection>
+  <view name="dashboards" />
+</nav>
