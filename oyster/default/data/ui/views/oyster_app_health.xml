@@ -1,0 +1,30 @@
+<dashboard>
+  <label>Oyster App Health</label>
+  <row>
+    <panel>
+      <title>Eventtype null</title>
+      <event>
+        <search>
+          <query>sourcetype=oyster NOT eventtype=*</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>No location station</title>
+        <search>
+          <query>sourcetype=oyster eventtype=national_rail OR eventtype=underground NOT eventtype=enter_and_exit | eval stations=start_station + ";" + end_station | makemv delim=";" stations  | rex field=stations "(?P&lt;station&gt;[^\[(]+)" | eval station=trim(station) | stats count by station | lookup oyster_stations station as station OUTPUT lat lon | search NOT lat=*</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="wrap">undefined</option>
+        <option name="rowNumbers">undefined</option>
+        <option name="drilldown">row</option>
+      </table>
+    </panel>
+  </row>
+</dashboard>

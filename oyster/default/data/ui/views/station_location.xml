@@ -1,0 +1,42 @@
+<view autoCancelInterval="90" isVisible="true" objectMode="SimpleDashboard" onunloadCancelJobs="true" refresh="-1" template="dashboard.html">
+	<label>Station Location</label>
+	<module name="AccountBar" layoutPanel="appHeader"/>
+	<module name="AppBar" layoutPanel="navigationHeader"/>
+	<module name="Message" layoutPanel="messaging">
+		<param name="maxSize">1</param>
+		<param name="filter">*</param>
+		<param name="clearOnJobDispatch">False</param>
+	</module>
+	<module name="DashboardTitleBar" layoutPanel="viewHeader"/>
+	<module name="Message" layoutPanel="navigationHeader">
+		<param name="level">warn</param>
+		<param name="maxSize">1</param>
+		<param name="filter">splunk.search.job</param>
+		<param name="clearOnJobDispatch">True</param>
+	</module>
+
+	<module name="TimeRangePicker" layoutPanel="panel_row1_col1">
+		<param name="searchWhenChanged">true</param>
+		<param name="default">Previous month</param>
+		<module name="HiddenSearch" layoutPanel="panel_row1_col1" autoRun="true">  
+			<param name="search">
+sourcetype=oyster eventtype=national_rail OR eventtype=underground NOT eventtype=enter_and_exit 
+| eval stations=start_station + ";" + end_station 
+| makemv delim=";" stations 
+| mvexpand stations 
+| rex field=stations "(?P&lt;station>[^\[(]+)" 
+| eval station=trim(station) 
+| fields station
+| lookup oyster_stations station as station OUTPUT lat lon  
+| search lat=* 
+| geonormalize
+		</param>  
+		<module name="GoogleMaps">  
+			<param name="height">650px</param>  
+			<param name="mapType">roadmap</param>  
+            <param name="center">51.508691, -0.113321</param>
+            <param name="zoomLevel">14</param>
+		</module> 
+	</module>	 
+</module>
+</view>

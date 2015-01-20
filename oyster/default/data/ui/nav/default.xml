@@ -1,8 +1,12 @@
 <nav search_view="search" color="#157db9">
   <view name="search" />
   <view name="overview" default="true" />
+  <view name="station_location" />
+  <view name="popularity" />
+  <view name="time_use" />
   <collection label="Others">
 	<view source="unclassified" />
+	<view name="oyster_app_health" />
   </collection>
   <view name="dashboards" />
 </nav>
