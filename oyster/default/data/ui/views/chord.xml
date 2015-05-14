@@ -1,0 +1,20 @@
+<form script="autodiscover.js">
+	<label>Chord Chart</label>
+	<search id="stations_search">
+		<query>
+			<![CDATA[
+sourcetype=oyster start_station=* end_station=*
+]]>
+		</query>
+		<earliest>-mon@mon</earliest>
+		<latest>@mon</latest>
+	</search>
+	<row>
+		<panel>
+			<html>
+				<div id="chord" class="splunk-view" data-require="app/oyster/components/chordchart/chordchart" 
+				data-options="{ &quot;managerid&quot;: &quot;stations_search&quot;, &quot;src_field&quot;: &quot;start_station&quot;, &quot;dst_field&quot;: &quot;end_station&quot;, &quot;height&quot;: 600 }" />
+			</html>
+		</panel>
+	</row>
+</form>
